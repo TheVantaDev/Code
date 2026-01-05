@@ -112,7 +112,6 @@ void insertAtPosition() {
     scanf("%d %s %d", &newNode->rollno, newNode->name, &newNode->age);
     newNode->next = NULL;
     newNode->previous = NULL;
-
     if (pos == 0) {
         newNode->next = head;
         if (head != NULL)

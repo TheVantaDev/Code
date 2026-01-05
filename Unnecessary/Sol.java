@@ -1,21 +1,19 @@
-package Unnecessary;
 
 import java.util.*;
 
-// User function Template for Java
+/*Complete the function below*/
 
-class Sol {
-    public static int search(int n, int arr[]) {
-        int start=0;
-        int end=arr.length-1;
-        while(start<end)
-        { int mid=start+(end-start)/2;
-          if(arr[mid]!=arr[mid+1] && arr[mid]!=arr[mid-1]) return mid;
-          else if(arr[mid]==arr[mid+1]) start=mid+2;
-          else end=mid;
-
-        }
-        return start;
+class Solution {
+    // Function to find three numbers such that arr[smaller[i]] < arr[i] <
+    // arr[greater[i]]
+    public List<Integer> find3Numbers(int[] arr) {
+        // code here
+        List <Integer> l=new ArrayList();
+        return l;
+        
     }
-      
+    void main()
+    { System.out.println("hello");
+
+    }
 }
