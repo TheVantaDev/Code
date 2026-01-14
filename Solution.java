@@ -1,55 +1,39 @@
-
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 class Solution {
-    public List<String> validateCoupons(String[] code, String[] businessLine, boolean[] isActive) {
-        List <String> l=new ArrayList<>();
-        List<String> elec = new ArrayList<>();
-        List<String> groc = new ArrayList<>();
-        List<String> pharm = new ArrayList<>();
-        List<String> rest = new ArrayList<>();
-        boolean v[]=new boolean[code.length];
-        for(int i=0;i<code.length;i++)
-        { int count=0;
-            if (code[i] == null) {
-                v[i] = false;
-                continue;
+    public static int minimumPairRemoval(int[] nums) {
+        List <Integer> l=new LinkedList<Integer>();
+        int cnt=0;
+        while(!issorted(l))
+        {  int idx=0;
+            // int sum=0;
+            for(int i=0;i<l.size()-1;i++)
+            {
+              int sum=l.get(i)+l.get(i+1);
+              if(sum<l.get(i))
+              {
+                l.set(i, sum);
+                cnt++;
+              }
+                
             }
-            for (int j = 0; j < code[i].length(); j++) {
-                   char ch = code[i].charAt(j);
-     if ((ch >= 65 && ch <= 90)   
-    || (ch >= 97 && ch <= 122) 
-    || (ch >= 48 && ch <= 57)  
-    || (ch == 95))
-    { count++;
+        
+
+
+        }
+         return cnt;
     }
-}
- if (code[i].length() > 0 && count == code[i].length()) {
-                v[i] = true;
-            }}
-for(int i=0;i<code.length;i++)
-{
-    if(v[i]!=isActive[i]) v[i]=false;
-}
-for(int i=0;i<businessLine.length;i++)
-{
-     if(businessLine[i].equals("electronics") && v[i]) elec.add(code[i]);
+   static boolean issorted(List <Integer> l)
+        { 
+            for(int i=1;i<l.size();i++)
+            {
+                if(l.get(i)<l.get(i-1)) return false;
+            }
+            return true;
+        }
+    void main()
+    { System.out.println(minimumPairRemoval(new int[]{5,2,3,1}));
 
-    else if(businessLine[i].equals("grocery") && v[i]) groc.add(code[i]);
-    else if(businessLine[i].equals("pharmacy") && v[i]) pharm.add(code[i]);
-    else if(businessLine[i].equals("restaurant") && v[i]) rest.add(code[i]);
-}
-Collections.sort(elec);
-Collections.sort(groc);
-Collections.sort(pharm);
-Collections.sort(rest);
-l.addAll(elec);
-l.addAll(groc);
-l.addAll(pharm);
-l.addAll(rest);
-
-        return l;
     }
 }
