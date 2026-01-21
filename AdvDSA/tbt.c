@@ -111,6 +111,8 @@ void preorder(Node *root)
         {
             curr=curr->right;
         }
+        // now you completed one left so we are following that so we have to at root so until curr.rthread will travel
+        // while loop ends so will reach 100 percent at root 
         else{
             while(curr!=NULL && curr->rthread)
             {
