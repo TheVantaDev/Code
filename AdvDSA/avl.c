@@ -126,7 +126,7 @@ void delete(Node *q,int val)
                     p=rightrotate(p);
                 }
             }
-            printf("\nData deltesed");
+            printf("\nData deleted");
             return;
         }
         else if(q->val>val){

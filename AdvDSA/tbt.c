@@ -23,7 +23,6 @@ void insert(int val)
 {
     Node *p=create(val);
     Node *parent=root;
-
     if(root==NULL)
     {
         root=p;
