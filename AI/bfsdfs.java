@@ -1,4 +1,7 @@
+package AI;
 import java.util.*;
+
+public class bfsdfs {
 
 class Solution {
     void bfs(int start, List<List<Integer>> adj) {
@@ -45,4 +48,5 @@ class Solution {
         System.out.println("BFS Traversal:");
         sol.bfs(0, adj);
     }
+}
 }
