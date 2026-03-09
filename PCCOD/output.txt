@@ -1,0 +1,29 @@
+#include <stdio.h> is a header file
+
+int is datatype
+ main() is function
+
+{ is special symbol
+ int is datatype
+ a is identifier
+= : Operator
+10, is special symbol
+ b is identifier
+= : Operator
+90; is special symbol
+
+    printf is identifier
+( is special symbol
+"%d is formatted output
+", is special symbol
+a is identifier
++ : Operator
+b is identifier
+) is special symbol
+; is special symbol
+
+    return is identifier
+ 0; is special symbol
+
+
+} is special symbol

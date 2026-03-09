@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "coding_e0e26dd7"
+        },
+        {
+            "type": "java",
             "name": "generics",
             "request": "launch",
             "mainClass": "generics",
