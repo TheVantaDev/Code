@@ -34,7 +34,7 @@ for(int i=0,j=si;i<merged.length;i++,j++)
             {
                 return;
             }
-            int mid=si+(si-ei)/2;
+            int mid = si + (ei - si) / 2;
             divide(arr, si, mid);
             divide(arr, mid+1, ei);
 conc(arr, si, mid, ei);            
