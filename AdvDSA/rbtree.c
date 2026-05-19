@@ -9,9 +9,7 @@ typedef struct Node {
     struct Node *right;
     bool colur; // 0 = black, 1 = red
 } Node;
-
 Node *root = NULL;
-
 Node* leftrotate(Node* q) {
     Node* t = q->right;
     if (!t) return q;
@@ -31,7 +29,6 @@ Node* leftrotate(Node* q) {
     q->parent = t;
     return t;
 }
-
 Node* rightrotate(Node* q) {
     Node* t = q->left;
     if (!t) return q;
@@ -51,7 +48,6 @@ Node* rightrotate(Node* q) {
     q->parent = t;
     return t;
 }
-
 Node* insert(Node *node, int val, Node **inserted) {
     if (node == NULL) {
         Node *p = (Node *) malloc(sizeof(Node));
@@ -128,7 +124,6 @@ void display(Node *root) {
     display(root->left);
     display(root->right);
 }
-
 int main() {
     root = i(root, 10);
     root = i(root, 20);

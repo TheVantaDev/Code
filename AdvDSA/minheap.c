@@ -60,7 +60,7 @@ void delete(int val)
         else 
         {break;
         }
-    }
+    }   
 
 }
 void display()
