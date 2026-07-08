@@ -8,7 +8,7 @@ typedef struct Node {
     struct Node *left;
     struct Node *right;
     bool colur; // 0 = black, 1 = red
-} Node;
+} Node;  
 Node *root = NULL;
 Node* leftrotate(Node* q) {
     Node* t = q->right;

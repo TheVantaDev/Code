@@ -77,7 +77,7 @@ void insert(Node *node, Rect r) {
     }
 
     else {
-
+         
         int index = chooseLeaf(node,r);
         insert(node->child[index], r);
         node->rect[index] = combine(node->rect[index], r);

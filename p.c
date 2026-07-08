@@ -1,132 +1,108 @@
 #include <stdio.h>
-#define max 100
-typedef struct Node
-{
-    int val;
-    struct Node *l;
-    struct Node * r;
-    int h;
-}Node;
-Node * root = NULL;
+#include <stdlib.h>
 
-Node * leftroate(Node * q)
-{
-    Node * t = q->r;
-    Node * s = t->l;
-    t->l = q;
-    q->r = s;
-    return t;
+typedef struct Node {
+    int val, h;
+    struct Node *l, *r;
+} Node;
+
+Node *root = NULL;
+
+/* helpers */
+int height(Node *n) { return n ? n->h : 0; }
+int max(int a, int b) { return (a > b) ? a : b; }
+
+/* rotations */
+Node* rightRotate(Node *y) {
+    Node *x = y->l, *T2 = x->r;
+    x->r = y; y->l = T2;
+    y->h = 1 + max(height(y->l), height(y->r));
+    x->h = 1 + max(height(x->l), height(x->r));
+    return x;
 }
-Node *rightrotate(Node * q){
-    Node * t = q->l;
-    Node *s = t->r;
-    t->r=q;
-    q->l=s;
-    return t;
+
+Node* leftRotate(Node *x) {
+    Node *y = x->r, *T2 = y->l;
+    y->l = x; x->r = T2;
+    x->h = 1 + max(height(x->l), height(x->r));
+    y->h = 1 + max(height(y->l), height(y->r));
+    return y;
 }
-int maximum(Node *x ,Node *y)
-{
-    int a=x!=NULL ? x->h :0;
-    int b=y!=NULL ? y->h:0;
-    return (a>b ? a:b);
+
+int balance(Node *n) { return n ? height(n->l) - height(n->r) : 0; }
+
+Node* newNode(int val) {
+    Node *n = malloc(sizeof(Node));
+    n->val = val; n->l = n->r = NULL; n->h = 1;
+    return n;
 }
-int balancefactor(Node *q)
-{
-    int a=q->left!=NULL ? q->left->h:0;
-    int b=q->right!=NULL ? q->right->h:0;
-    return a-b;
+
+/* insert */
+Node* insert(Node *node, int val) {
+    if (!node) return newNode(val);
+
+    if (val < node->val) node->l = insert(node->l, val);
+    else if (val > node->val) node->r = insert(node->r, val);
+    else return node; // no duplicates
+
+    node->h = 1 + max(height(node->l), height(node->r));
+    int bf = balance(node);
+
+    if (bf > 1 && val < node->l->val) return rightRotate(node);       // LL
+    if (bf < -1 && val > node->r->val) return leftRotate(node);       // RR
+    if (bf > 1 && val > node->l->val) { node->l = leftRotate(node->l); return rightRotate(node); } // LR
+    if (bf < -1 && val < node->r->val) { node->r = rightRotate(node->r); return leftRotate(node); } // RL
+
+    return node;
 }
-Node * delete(Node *root , int val){
- if(!root) return NULL;
- if(root->val < val){
-    root = delete(root->r , val);
- }
- else if(root->val > val){
-   root = delete(root->l , val);
- }
- else {
-    if(!root->l || !root->r){
-        Node *temp ;
-        if(root->l!=NULL){
-        temp = root->l;
-        }
-        else {
-        temp = root->r;
-        }
-        free(root);
-        return temp;
-    }
+
+/* min value node */
+Node* minValue(Node *n) {
+    while (n->l) n = n->l;
+    return n;
+}
+
+/* delete */
+Node* delete(Node *node, int val) {
+    if (!node) return NULL;
+
+    if (val < node->val) node->l = delete(node->l, val);
+    else if (val > node->val) node->r = delete(node->r, val);
     else {
-        Node * succ = minValue(root->r);
-        root->val = succ->val;
-        root->r =delete(root->r , val);
-    }
-    root->h = 1+maximum(root->l->h , root->r->h);
-    int bf = balancefactor(root);
-    if(bf > 1 && balancefactor(root->l) >=0){
-    return rightrotate(root-);
-    }
-    else if(bf >1 && balancefactor(root->l) <0 ){
-      root-> l = leftroate(root->l);
-      return rightrotate(root); 
-    }
-    else if(bf < -1 && balancefactor(root->r) >=0 ){
-     root->r =rightrotate(root->r);
-     return leftroate(root->l);
-    }
-    else if(bf < -1 && balancefactor(root->r) < 0 ){
-     return leftroate(root);
-    }
-    return root;
- }
-}
-Node *minValue(Node * temp){
-    Node * curr = temp;
-    while(curr->l!=NULL){
-        curr = curr->l;
-    }
-    return curr;
-}
-Node * insert(Node * ptr , int val){
-    if( ptr == NULL){
-        Node * p = (Node *) malloc(sizeof(Node));
-        p->val=val;
-        p->l=NULL;
-        p->r=NULL;
-        p->h=1;
-        return p;
-    }
-    else{
-
-        if(ptr->val < val){
-            ptr->r = insert(ptr->r , val); 
-        }
-        else {
-            ptr->l=insert(ptr->l , val);
+        if (!node->l || !node->r) {
+            Node *temp = node->l ? node->l : node->r;
+            free(node);
+            return temp;
+        } else {
+            Node *temp = minValue(node->r);
+            node->val = temp->val;
+            node->r = delete(node->r, temp->val);
         }
     }
 
-    int bf = balnace(ptr);
-    ptr->h = 1+maximum(ptr->r->h , ptr->l->h);
-    if(bf > 1 && ptr->l->val < val){
-      ptr->l = leftrotate(ptr->l);
-      ptr = rightrotate(ptr);
-    }
-    else if(bf > 1 && ptr->l->val > val){
-       ptr = rightrotate(ptr);
-    }
-    else if(bf < -1 && ptr->r->val < val){
-      ptr = leftrotate(ptr);
-    }
-    else if(bf < -1 && ptr->r->val > val){
-      ptr->r=rightrotate(ptr->r);
-      ptr = leftrotate(ptr);
-    }
-    return ptr;
+    node->h = 1 + max(height(node->l), height(node->r));
+    int bf = balance(node);
 
+    if (bf > 1 && balance(node->l) >= 0) return rightRotate(node);       // LL
+    if (bf > 1 && balance(node->l) < 0) { node->l = leftRotate(node->l); return rightRotate(node); } // LR
+    if (bf < -1 && balance(node->r) <= 0) return leftRotate(node);       // RR
+    if (bf < -1 && balance(node->r) > 0) { node->r = rightRotate(node->r); return leftRotate(node); } // RL
+
+    return node;
 }
 
-int main(){
- 
-    root = 
+/* traversals */
+void inorder(Node *n) { if (n) { inorder(n->l); printf("%d ", n->val); inorder(n->r); } }
+void preorder(Node *n) { if (n) { printf("%d(h=%d) ", n->val, n->h); preorder(n->l); preorder(n->r); } }
+
+int main() {
+    int keys[] = {10, 20, 30, 40, 50, 25};
+    for (int i = 0; i < 6; i++) root = insert(root, keys[i]);
+
+    printf("Inorder:\n"); inorder(root); printf("\nPreorder:\n"); preorder(root); printf("\n");
+
+    root = delete(root, 40);
+    printf("After deleting 40:\n"); inorder(root); printf("\nPreorder:\n"); preorder(root); printf("\n");
+
+    return 0;
 }

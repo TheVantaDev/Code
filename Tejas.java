@@ -1,26 +1,19 @@
-class Solution {
-    public int numPrimeArrangements(int n) {
-        int p = 0;
-      for (int i = 1; i <= n; i++) {
-    int cnt = 0;
-
-    for (int j = 1; j <= i; j++) {
-        if (i % j == 0) {
-            cnt++;
+class Tejas{
+    String reverse(){
+        char arr[] = {'(' , ')'};
+        int l = 0;
+        int r = arr.length -1;
+        while(l < r){
+            char t = arr[l];
+            arr[l] = arr[r];
+            arr[r] = t;
+            l++;
+            r--;
         }
-        if(cnt==2) p++;
+        return new String(arr);
+
     }
-
-
-        
-    
-}
-return facto(p)*facto(n-p) ;
+    void main() {
+        System.out.println(reverse());
     }
- int facto(int n)
- {
-    if(n <=1) return 1;
-    return n*facto(n-1);
- }
-
 }
