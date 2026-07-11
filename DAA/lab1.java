@@ -40,5 +40,6 @@ public class lab1 {
             }
         }
         f(a , b , n);
+        System.out.println("Hi");
     }
 }
